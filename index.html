@@ -135,46 +135,46 @@
             data: {
     sitename: "Book your lessons here",
     products: [
-        {
-            id: 1,
-            title: "Yoga Class",
-            description: "Join our relaxing yoga class suitable for all levels.",
-            location: "Downtown Studio",
-            image: "../appbackend-end/Images/English.png",
-            price: 20,
-            space: 5,
-            rating: 4
-        },
-        {
-            id: 2,
-            title: "English Class",
-            description: "Improve your English skills with our experienced instructors.",
-            location: "Downtown Studio",
-            image: "../appbackend-end/Images/English.png",
-            price: 29,
-            space: 5,
-            rating: 4
-        },
-        {
-            id: 3,
-            title: "English Class",
-            description: "Improve your English skills with our experienced instructors.",
-            location: "Downtown Stuo",
-            image: "../appbackend-end/Images/English.png",
-            price: 27,
-            space: 5,
-            rating: 4
-        },
-        {
-            id: 4,
-            title: "English Class",
-            description: "Improve your English skills with our experienced instructors.",
-            location: "Downtown Stud",
-            image: "../appbackend-end/Images/English.png",
-            price: 25,
-            space: 5,
-            rating: 4
-        }
+        // {
+        //     id: 1,
+        //     title: "Yoga Class",
+        //     description: "Join our relaxing yoga class suitable for all levels.",
+        //     location: "Downtown Studio",
+        //     image: "../appbackend-end/Images/English.png",
+        //     price: 20,
+        //     space: 5,
+        //     rating: 4
+        // },
+        // {
+        //     id: 2,
+        //     title: "English Class",
+        //     description: "Improve your English skills with our experienced instructors.",
+        //     location: "Downtown Studio",
+        //     image: "../appbackend-end/Images/English.png",
+        //     price: 29,
+        //     space: 5,
+        //     rating: 4
+        // },
+        // {
+        //     id: 3,
+        //     title: "English Class",
+        //     description: "Improve your English skills with our experienced instructors.",
+        //     location: "Downtown Stuo",
+        //     image: "../appbackend-end/Images/English.png",
+        //     price: 27,
+        //     space: 5,
+        //     rating: 4
+        // },
+        // {
+        //     id: 4,
+        //     title: "English Class",
+        //     description: "Improve your English skills with our experienced instructors.",
+        //     location: "Downtown Stud",
+        //     image: "../appbackend-end/Images/English.png",
+        //     price: 25,
+        //     space: 5,
+        //     rating: 4
+        // }
     ],
     showCheckout: false,
     sortOption: 'price-asc',
@@ -229,6 +229,19 @@
             },
 
             methods: {
+                async fetchLessons() {
+        try {
+            const response = await fetch('http://localhost:3000/lessons'); // Fetch lessons from the backend
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const lessons = await response.json();
+            this.products = lessons; // Update the products with fetched lessons
+        } catch (error) {
+            console.error("Error fetching lessons:", error);
+            alert("There was an error fetching lessons. Please try again.");
+        }
+    }, 
                 async placeOrder() {
         const orderData = {
             firstName: this.order.firstName,
