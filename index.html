@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lessons Booker</title>
-    <link rel="stylesheet" type="text/css" href="../Front-end/vue.css">
+    <link rel="stylesheet" type="text/css" href="../front-end/vue.css">
     <script src="https://unpkg.com/vue@2.7.8/dist/vue.js"></script>
     
 </head>
@@ -15,26 +15,26 @@
         </header>
         <main>
             <div>
-                <div>
-                    <button v-if="!showCheckout" v-on:click="showCheckout = true" :disabled="isCartEmpty">
-                        <span class="fas fa-cart-plus"></span> Cart
-                    </button>
-                    <button v-else v-on:click="showCheckout = false">
-                        <span class="fas fa-cart-plus"></span> Back to Products
-                    </button>
-
-                    <div v-if="!showCheckout">
-                        <label for="sortOptions">Sort By:</label>
-                        <select id="sortOptions" v-model="sortOption" @change="sortProducts">
-                            <option value="price-asc">Price: Low to High</option>
-                            <option value="price-desc">Price: High to Low</option>
-                            <option value="alphabetical">Alphabetical</option>
-                        </select>
-                    </div>
-                </div>
-
+                <button v-if="!showCheckout" v-on:click="showCheckout = true" :disabled="isCartEmpty">
+                    <span class="fas fa-cart-plus"></span> Cart
+                </button>
+                <button v-else v-on:click="showCheckout = false">
+                    <span class="fas fa-cart-plus"></span> Back to Products
+                </button>
+        
                 <div v-if="!showCheckout">
-                    <div v-for="product in products" :key="product.id" class="lesson">
+                    <div>
+                        <label for="search">Search Lessons:</label>
+                        <input type="text" id="search" v-model="searchQuery" placeholder="Search for lessons..." />
+                    </div>
+        
+                    <label for="sortOptions">Sort By:</label>
+                    <select id="sortOptions" v-model="sortOption" @change="sortProducts">
+                        <option value="price-asc">Price: Low to High</option>
+                        <option value="price-desc">Price: High to Low</option>
+                    </select>
+        
+                    <div v-for="product in filteredProducts" :key="product.id" class="lesson">
                         <figure>
                             <img :src="product.image" class="cal-image">
                         </figure>
@@ -64,10 +64,10 @@
                         <p>Price: {{item.price}} x {{item.quantity}} = {{item.price * item.quantity}}</p>
                         <button v-on:click="removeFromCart(index)">Remove</button>
                     </div>
-
+        
                     <h3>Total Items: {{ totalItems }}</h3>
                     <h3>Total Amount: {{ totalAmount }}</h3>
-
+        
                     <p>
                         <strong>First Name:</strong>
                         <input v-model="order.firstName"/>
@@ -99,7 +99,7 @@
                     <p>
                         <strong>Zip/Postal Code:</strong> <input v-model="order.zip"/>
                     </p>
-
+        
                     <h2>Order Information</h2>
                     <p>First Name: {{order.firstName}}</p>
                     <p>Last Name: {{order.lastName}}</p>
@@ -109,9 +109,9 @@
                     <p>State: {{order.state}}</p>
                     <p>Zip/Postal Code: {{order.zip}}</p>
                     <p>Total Amount: {{ totalAmount }}</p>
-
+        
                     <button v-on:click="placeOrder" :disabled="!isOrderValid">Checkout</button>
-
+        
                     <!-- Confirmation message -->
                     <div v-if="orderConfirmed" class="modal">
                         <div class="modal-content">
@@ -128,45 +128,59 @@
         let webstore = new Vue({
             el: '#app',
             data: {
-                sitename: "Book your lessons here",
-                products: [
-                    {
-                        id: 1,
-                        title: "Yoga Class",
-                        description: "Join our relaxing yoga class suitable for all levels.",
-                        location: "Downtown Studio",
-                        image: "../Front-end/Images/English.png",
-                        price: 20,
-                        space: 5,
-                        rating: 4
-                    },
-                    {
-                        id: 2,
-                        title: "English Class",
-                        description: "Improve your English skills with our experienced instructors.",
-                        location: "Downtown Studio",
-                        image: "../Front-end/Images/English.png",
-                        price: 20,
-                        space: 5,
-                        rating: 4
-                    }
-                ],
-                showCheckout: false,
-                sortOption: 'price-asc',
-                cart: [],
-                order: {
-                    firstName: '',
-                    lastName: '',
-                    phone: '',
-                    address: '',
-                    city: '',
-                    state: '',
-                    zip: ''
-                },
-                orderConfirmed: false
-            },
-
+    sitename: "Book your lessons here",
+    products: [
+        {
+            id: 1,
+            title: "Yoga Class",
+            description: "Join our relaxing yoga class suitable for all levels.",
+            location: "Downtown Studio",
+            image: "../Front-end/Images/English.png",
+            price: 20,
+            space: 5,
+            rating: 4
+        },
+        {
+            id: 2,
+            title: "English Class",
+            description: "Improve your English skills with our experienced instructors.",
+            location: "Downtown Studio",
+            image: "../Front-end/Images/English.png",
+            price: 20,
+            space: 5,
+            rating: 4
+        }
+    ],
+    showCheckout: false,
+    sortOption: 'price-asc',
+    cart: [],
+    order: {
+        firstName: '',
+        lastName: '',
+        phone: '',
+        address: '',
+        city: '',
+        state: '',
+        zip: ''
+    },
+    orderConfirmed: false,
+    searchQuery: '' // Add searchQuery here
+},
             computed: {
+                filteredProducts() {
+        if (!this.searchQuery) {
+            return this.products; // Return all products if no search query
+        }
+        const query = this.searchQuery.toLowerCase();
+        return this.products.filter(product => {
+            return (
+                product.title.toLowerCase().includes(query) ||
+                product.location.toLowerCase().includes(query) ||
+                product.price.toString().includes(query) ||
+                product.space.toString().includes(query) // Check availability
+            );
+        });
+    },
                 isOrderValid() {
                     const phoneRegex = /^\d+$/;
                     const nameRegex = /^[A-Za-z\s]+$/;

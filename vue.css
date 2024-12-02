@@ -50,3 +50,13 @@
     text-decoration: none;
     cursor: pointer;
 }
+
+#search {
+    margin: 5px 0;
+    padding: 2px;
+    width: 200px; /* Adjust width as needed */
+}
+
+label {
+    margin-right: 10px;
+}
