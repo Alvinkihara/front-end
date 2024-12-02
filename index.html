@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lessons Booker</title>
-    <link rel="stylesheet" type="text/css" href="../front-end/vue.css">
+    <link rel="stylesheet" type="text/css" href="../Front-end/vue.css">
     <script src="https://unpkg.com/vue@2.7.8/dist/vue.js"></script>
     
 </head>
@@ -23,16 +23,17 @@
                 </button>
         
                 <div v-if="!showCheckout">
-                    <div>
-                        <label for="search">Search Lessons:</label>
-                        <input type="text" id="search" v-model="searchQuery" placeholder="Search for lessons..." />
-                    </div>
-        
                     <label for="sortOptions">Sort By:</label>
                     <select id="sortOptions" v-model="sortOption" @change="sortProducts">
                         <option value="price-asc">Price: Low to High</option>
                         <option value="price-desc">Price: High to Low</option>
+                        <option value="alphabetical">Alphabetical</option>
                     </select>
+        
+                    <div>
+                        <label for="search">Search Lessons:</label>
+                        <input type="text" id="search" v-model="searchQuery" placeholder="Search for lessons..." />
+                    </div>
         
                     <div v-for="product in filteredProducts" :key="product.id" class="lesson">
                         <figure>
