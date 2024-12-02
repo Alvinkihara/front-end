@@ -35,6 +35,10 @@
                         <input type="text" id="search" v-model="searchQuery" placeholder="Search for lessons..." />
                     </div>
         
+                    <div v-if="filteredProducts.length === 0">
+                        <p>No lessons found.</p>
+                    </div>
+        
                     <div v-for="product in filteredProducts" :key="product.id" class="lesson">
                         <figure>
                             <img :src="product.image" class="cal-image">
@@ -98,7 +102,7 @@
                         </select>
                     </p>
                     <p>
-                        <strong>Zip/Postal Code:</strong> <input v-model="order.zip"/>
+                        <strong>Zip/Postal Code:</strong> <input v-model=" order.zip"/>
                     </p>
         
                     <h2>Order Information</h2>
@@ -147,7 +151,27 @@
             description: "Improve your English skills with our experienced instructors.",
             location: "Downtown Studio",
             image: "../Front-end/Images/English.png",
-            price: 20,
+            price: 29,
+            space: 5,
+            rating: 4
+        },
+        {
+            id: 3,
+            title: "English Class",
+            description: "Improve your English skills with our experienced instructors.",
+            location: "Downtown Stuo",
+            image: "../Front-end/Images/English.png",
+            price: 27,
+            space: 5,
+            rating: 4
+        },
+        {
+            id: 4,
+            title: "English Class",
+            description: "Improve your English skills with our experienced instructors.",
+            location: "Downtown Stud",
+            image: "../appbackend-end/Images/English.png",
+            price: 25,
             space: 5,
             rating: 4
         }
