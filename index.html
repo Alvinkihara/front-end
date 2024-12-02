@@ -242,41 +242,7 @@
             alert("There was an error fetching lessons. Please try again.");
         }
     }, 
-                async placeOrder() {
-        const orderData = {
-            firstName: this.order.firstName,
-            lastName: this.order.lastName,
-            phone: this.order.phone,
-            address: this.order.address,
-            city: this.order.city,
-            state: this.order.state,
-            zip: this.order.zip,
-            totalAmount: this.totalAmount,
-            items: this.cart
-        };
-
-        try {
-            const response = await fetch('http://localhost:3000/collection/orders', { // Update the URL if needed
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(orderData),
-            });
-
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-
-            const data = await response.json();
-            console.log("Order placed successfully:", data);
-            this.orderConfirmed = true; // Show the confirmation modal
-            this.resetOrder(); // Clear the cart and reset order fields
-        } catch (error) {
-            console.error("Error placing order:", error);
-            alert("There was an error placing your order. Please try again.");
-        }
-    },
+                
                 addToCart(product) {
                     if (product.space >  0) {
                         const existingItem = this.cart.find(item => item.id === product.id);
